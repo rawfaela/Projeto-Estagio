@@ -4,7 +4,7 @@
 function fprop returns char() forwards.
 
 procedure p_setparams:
-    assign vpad-titulo   = "Propriedades"
+    assign vpad-titulo   = "Ocorrências por propriedade"
            vpad-numcol   = 2
            vpad-programa = "wragP001r.p"
            vpad-btdisp   = true.
