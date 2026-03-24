@@ -6,7 +6,6 @@ assign vurl = "*" + furl(""" """).
 def var vprop as int.
 def var vdataini as date.
 def var vdatafim as date.
-def var vocorrencias as int.
 assign vprop = batweb.batpari[1].
 assign vdataini = batweb.batpardt[2].
 assign vdatafim = batweb.batpardt[3].
@@ -24,9 +23,7 @@ for each ocorrencia no-lock
 
     find bprop where bprop.codigo = ocorrencia.prop no-lock no-error.
 
-    if first-of(ocorrencia.categoria) then do:
-        assign vocorrencias = 0.
-    end.
+ 
 
     finicio(vcor).
 
@@ -36,27 +33,14 @@ for each ocorrencia no-lock
         fcaixa("C", "", "C", "Propriedade", "", 0, 0).
 
     fcaixa("C",ocorrencia.categoria,"C","Categoria","",0,0).
-    fcaixa("C",ocorrencia.descricao,"E","Descrição","", 0,0).
+    fcaixa("E",ocorrencia.descricao,"E","DescriÃ§Ã£o","", 0,0).
     fcaixa("C",ocorrencia.vstatus,"C","Status","",0,0).
     fcaixa("C",string(ocorrencia.data),"C","Data","",0,0).
-    fcaixa("C","", "C", "Total da categoria","",0,0).
 
     final(no,100,"").
 
-    assign vocorrencias = vocorrencias + 1.
 
-    if last-of(ocorrencia.categoria) then do:
-        finicio(vcor).
-
-        fcaixa("C","","C","","",0,0).
-        fcaixa("C","","C","","",0,0).
-        fcaixa("C","","C","","",0,0).
-        fcaixa("C","","C","","",0,0).
-        fcaixa("C","","C","","",0,0).
-        fcaixa("C",string(vocorrencias),"C","","",0,0).
-
-        final(no,100,"").
-    end.
+    
 
 end.
 
