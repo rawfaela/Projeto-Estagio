@@ -114,6 +114,10 @@ select{
     font-size: 12px;
     height: 23px;
     width: 160px;
+    outline: none;
+}
+select:hover{
+    cursor: pointer;
 }
 input[type="text"], input[type="time"],input[type="date"]{
     height: 20px;
@@ -143,12 +147,24 @@ input[type="date"]{
 .colunapequena{
     width: 0px;
 }
-.man{
-    border-top: 1px #82b5dc solid;
-    display: none;
+.man, .btrelat{
+    display: flex;
     align-items: center;
+    width: 100%;
+}
+.man{
     justify-content: flex-end;
+}
+.btrelat{
+    justify-content: flex-start;
+    margin-left: 5px;
+}
+#man,#man2{
+    display: none;
+    border-top: 1px #82b5dc solid;
     height: 40px; 
+    align-items: center;
+    width: 100%;
 }
 .botao{
     background-image: linear-gradient(rgb(222, 237, 248) 50%, rgb(214, 233, 247) 50%);
@@ -156,7 +172,6 @@ input[type="date"]{
     color: rgb(46, 110, 158);
     height: 25px;
     width: 100px;
-    cursor: pointer;
     border : 1px solid rgb(121, 183, 231);
     border-image: initial;
     border-radius: 2px;
@@ -167,6 +182,7 @@ input[type="date"]{
     background-image: none;
     color: #ff4500;
     border-color: #f39471;
+    cursor: pointer;
 }
 #consulta{
     height: 93vh;    
@@ -271,4 +287,7 @@ input:disabled {
 
 @keyframes spin {
     to { transform: rotate(360deg); };
+}
+#contentR{
+    height: 100%;
 }
