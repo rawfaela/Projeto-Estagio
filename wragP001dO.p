@@ -6,7 +6,7 @@ function fprop returns char() forwards.
 procedure p_setparams:
     assign vpad-titulo   = "Ocorrências por propriedade"
            vpad-numcol   = 2
-           vpad-programa = "wragP001r.p"
+           vpad-programa = "wragP001rO.p"
            vpad-btdisp   = true.
 end procedure.
 
@@ -27,12 +27,12 @@ procedure p_disparar:
     create tp-batweb.
     assign tp-batweb.batdes = vpad-titulo
            tp-batweb.batprog = vpad-programa
-           tp-batweb.batpari[1] = int(get-value("vprop"))
-           tp-batweb.batpardt[2] = date(get-value("vdataini"))
-           tp-batweb.batpardt[3] = date(get-value("vdatafim"))
            tp-batweb.batpardc[1] = 2.2
            tp-batweb.batparlg[1] = yes
-           tp-batweb.batpardt[1] = today.
+           tp-batweb.batpari[1] = int(get-value("vprop"))
+           tp-batweb.batpardt[1] = today
+           tp-batweb.batpardt[2] = date(get-value("vdataini"))
+           tp-batweb.batpardt[3] = date(get-value("vdatafim")).
 end procedure.
 
 function fprop returns char():
@@ -46,10 +46,9 @@ function fprop returns char():
     return vselect.
 end function.
 
-//! rodou uma vez e dps n funcionou mais
 procedure p_valida:
-    if date(get-value("vdataini")) > date(get-value("vdatafim")) and date(get-value("vdatafim")) <> ?
-    then do:
+    if date(get-value("vdataini")) > date(get-value("vdatafim")) 
+    and date(get-value("vdatafim")) <> ? then do:
         {wpaderro.i "erro" "'Data inicial maior que data final'"}
     end.
 end procedure.
