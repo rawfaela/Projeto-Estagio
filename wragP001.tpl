@@ -15,24 +15,24 @@
 <body>
     <div id="redor">
         <div id="fundotitulo">
-            <span id="titulo">Gest�o de Propriedade Rural</span>
+            <span id="titulo">Gestão de Propriedade Rural</span>
         </div>
         <div id="consulta">
             <div id="naveg" class="naveg">
                 <input type="button" class="tabs" data-group="main" data-tab="P" value="Propriedades">
                 <input type="button" class="tabs" data-group="main" data-tab="L" value="Lotes">
-                <input type="button" class="tabs" data-group="main" data-tab="F" value="Funcion�rios">
+                <input type="button" class="tabs" data-group="main" data-tab="F" value="Funcionários">
                 <input type="button" class="tabs" data-group="main" data-tab="An" value="Animais">
                 <input type="button" class="tabs" data-group="main" data-tab="A" value="Acessos">
-                <input type="button" class="tabs" data-group="main" data-tab="O" value="Ocorr�ncias">
-                <input type="button" class="tabs" data-group="main" data-tab="G" value="Gr�ficos">
+                <input type="button" class="tabs" data-group="main" data-tab="O" value="Ocorrências">
+                <input type="button" class="tabs" data-group="main" data-tab="G" value="Gráficos">
             </div>
 
             <div id="pesq" class="pesq">
                 <div id="selects">
                     <div id="selF" style="display: none;">
                         <select name="select" id="seleF">
-                            <option value="codigo">C�digo</option>
+                            <option value="codigo">Código</option>
                             <option value="nome">Nome</option>
                             <option value="cargo">Cargo</option>
                             <option value="lote">Lote</option>
@@ -41,36 +41,36 @@
                     </div>
                     <div id="selP" style="display: none;">
                         <select name="select" id="seleP">
-                            <option value="codigo">C�digo</option>
+                            <option value="codigo">Código</option>
                             <option value="nome">Nome</option>
-                            <option value="criacao">Cria��o</option>
+                            <option value="criacao">Criação</option>
                         </select>
                     </div>
                     <div id="selL" style="display: none;">
                         <select name="select" id="seleL">
-                            <option value="codigo">C�digo</option>
+                            <option value="codigo">Código</option>
                             <option value="nome">Nome</option>
                             <option value="prop">Propriedade</option>
                         </select>
                     </div>
                     <div id="selAn1" style="display: none;">
                         <select name="select" id="seleAn1">
-                            <option value="codigo">C�digo</option>
+                            <option value="codigo">Código</option>
                             <option value="nome">Nome</option>
                         </select>
                     </div>
                     <div id="selAn2" style="display: none;">
                         <select name="select" id="seleAn2">
-                            <option value="codigo">C�digo</option>
+                            <option value="codigo">Código</option>
                             <option value="nome">Nome</option>
-                            <option value="especie">Esp�cie</option>
+                            <option value="especie">Espécie</option>
                             <option value="lote">Lote</option>
                             <option value="prop">Propriedade</option>
                         </select>
                     </div>
                     <div id="selA" style="display: none;">
                         <select name="select" id="seleA">
-                            <option value="codigo">C�digo</option>
+                            <option value="codigo">Código</option>
                             <option value="nome">Nome</option>
                             <option value="tipo">Tipo</option>
                             <option value="motivo">Motivo</option>
@@ -79,8 +79,8 @@
                     </div>
                     <div id="selO" style="display: none;">
                         <select name="select" id="seleO">
-                            <option value="codigo">C�digo</option>
-                            <option value="descricao">Descri��o</option>
+                            <option value="codigo">Código</option>
+                            <option value="descricao">Descrição</option>
                             <option value="lote">Lote</option>
                             <option value="prop">Propriedade</option>
                         </select>
@@ -96,8 +96,8 @@
                     <div id="selectO" style="display: none;">
                         <select name="selcat" id="selcatO">
                             <option value=""><--CATEGORIA--></option>
-                            <option value="Doenca">Doen�a</option>
-                            <option value="Queda de producao">Queda de produ��o</option>
+                            <option value="Doenca">Doença</option>
+                            <option value="Queda de producao">Queda de produção</option>
                             <option value="Problema alimentar">Problema alimentar</option>
                             <option value="Mortalidade">Mortalidade</option>
                             <option value="Acidente">Acidente</option>
@@ -105,7 +105,7 @@
                         <select name="selstatus" id="selstatusO">
                             <option value=""><--STATUS--></option>
                             <option value="Aberto">Aberto</option>
-                            <option value="Em analise">Em an�lise</option>
+                            <option value="Em analise">Em análise</option>
                             <option value="Em tratamento">Em tratamento</option>
                             <option value="Resolvido">Resolvido</option>
                             <option value="Cancelado">Cancelado</option>
@@ -115,12 +115,12 @@
                         <select name="selcat" id="selcatA">
                             <option value=""><--APROVADO--></option>
                             <option value="true">Sim</option>
-                            <option value="false">N�o</option>
+                            <option value="false">Não</option>
                         </select>
                         <select name="selstatus" id="selstatusA">
                             <option value=""><--STATUS--></option>
                             <option value="true">Realizado</option>
-                            <option value="false">N�o realizado</option>
+                            <option value="false">Não realizado</option>
                         </select>
                     </div>
                     <div id="selectAn2" style="display: none;">
@@ -151,9 +151,9 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>C�digo</th>
+                                <th>Código</th>
                                 <th class="alignleft">Nome</th>
-                                <th class="alignleft">Cria��o</th>
+                                <th class="alignleft">Criação</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -164,7 +164,7 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>C�digo</th>
+                                <th>Código</th>
                                 <th class="alignleft">Nome</th>
                                 <th>Capacidade</th>
                                 <th class="alignleft">Propriedade</th>
@@ -178,7 +178,7 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>C�digo</th>
+                                <th>Código</th>
                                 <th class="alignleft">Nome</th>
                                 <th>CPF</th>
                                 <th class="alignleft">Cargo</th>
@@ -194,14 +194,14 @@
                 <div class="content" id="contentAn">
                     <div class="naveg" id="naveg2">
                         <input type="button" class="tabs" data-group="animais" data-tab="An1" value="Geral">
-                        <input type="button" class="tabs" data-group="animais" data-tab="An2" value="Espec�fico">
+                        <input type="button" class="tabs" data-group="animais" data-tab="An2" value="Específico">
                     </div>
                     <div class="content" id="contentAn1">
                         <table>
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>C�digo</th>
+                                    <th>Código</th>
                                     <th class="alignleft">Nome</th>
                                     <th>Quantidade</th>
                                 </tr>
@@ -214,9 +214,9 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>C�digo</th>
+                                    <th>Código</th>
                                     <th class="alignleft">Nome</th>
-                                    <th class="alignleft">Esp�cie</th>
+                                    <th class="alignleft">Espécie</th>
                                     <th>Sexo</th>
                                     <th>Status</th>
                                     <th>Nascimento</th>
@@ -234,7 +234,7 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>C�digo</th>
+                                <th>Código</th>
                                 <th class="alignleft">Nome</th>
                                 <th>Tipo</th>
                                 <th class="alignleft">Motivo</th>
@@ -253,11 +253,11 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>C�digo</th>
+                                <th>Código</th>
                                 <th>Categoria</th>
-                                <th class="alignleft">Descri��o</th>
+                                <th class="alignleft">Descrição</th>
                                 <th class="alignleft">Animal</th>
-                                <th class="alignleft">Funcion�rio</th>
+                                <th class="alignleft">Funcionário</th>
                                 <th>Data</th>
                                 <th>Status</th>
                                 <th class="alignleft">Lote</th>
@@ -268,8 +268,11 @@
                     </table>
                 </div>
                 <div class="content" id="contentG">
-                    <iframe id="iframe" style="width: 100%;"></iframe>
+                    <iframe id="iframeG" style="width: 100%;"></iframe>
                 </div>
+            </div>
+            <div class="content" id="contentR">
+                <iframe id="iframeR" style="width: 100%; height: 100%;"></iframe>
             </div>
         </div>
         <div id="manutencao">
@@ -286,14 +289,14 @@
             </form>
             <form id="formP">
                 <div id="manP" class="manutencao">
-                    <div class="campo"><span>C�digo</span> <input type="text" name="codigo" disabled></div>
+                    <div class="campo"><span>Código</span> <input type="text" name="codigo" disabled></div>
                     <div class="campo"><span>Nome</span> <input type="text" name="nome"></div>
-                    <div class="campo"><span>Cria��o</span> <input type="text" name="criacao"></div>
+                    <div class="campo"><span>Criação</span> <input type="text" name="criacao"></div>
                 </div>
             </form>
             <form id="formL">
                 <div id="manL" class="manutencao">
-                    <div class="campo"><span>C�digo</span> <input type="text" name="codigo" disabled></div>
+                    <div class="campo"><span>Código</span> <input type="text" name="codigo" disabled></div>
                     <div class="campo"><span>Nome</span> <input type="text" name="nome"></div>
                     <div class="campo"><span>Capacidade</span> <input type="text" name="capacidade"></div>
                     <div class="campo"><span>Propriedade</span> <input type="text" name="prop" data-zoom="P"></div>
@@ -301,13 +304,13 @@
             </form>
             <form id="formAn1">
                 <div id="manAn1" class="manutencao">
-                    <div class="campo"><span>C�digo</span> <input type="text" name="codigo" disabled></div>
+                    <div class="campo"><span>Código</span> <input type="text" name="codigo" disabled></div>
                     <div class="campo"><span>Nome</span> <input type="text" name="nome"></div>
                 </div>
             </form>
             <form id="formAn2">
                 <div id="manAn2" class="manutencao">
-                    <div class="campo"><span>C�digo</span> <input type="text" name="codigo" disabled></div>
+                    <div class="campo"><span>Código</span> <input type="text" name="codigo" disabled></div>
                     <div class="campo"><span>Nome</span> <input type="text" name="nome"></div>
                     <div class="campo"><span>Sexo</span>
                         <select name="sexo">
@@ -331,7 +334,7 @@
             </form>
             <form id="formA">
                 <div id="manA" class="manutencao">
-                    <div class="campo"><span>C�digo</span> <input type="text" name="codigo" disabled></div>
+                    <div class="campo"><span>Código</span> <input type="text" name="codigo" disabled></div>
                     <div class="campo"><span>Nome</span> <input type="text" name="nome-visitante"></div>
                     <div class="campo"><span>Tipo</span> <input type="text" name="tipo-visitante"></div>
                     <div class="campo"><span>Motivo</span> <input type="text" name="motivo"></div>
@@ -339,13 +342,13 @@
                     <div class="campo"><span>Hora</span> <input type="time" name="hora"></div>
                     <div class="campo"><span>Aprovado</span>
                         <select name="aprovado">
-                            <option value="no">N�o</option>
+                            <option value="no">Não</option>
                             <option value="yes">Sim</option>
                         </select>
                     </div>
                     <div class="campo"><span>Status</span>
                         <select name="vstatus">
-                            <option value="no">N�o realizado</option>
+                            <option value="no">Não realizado</option>
                             <option value="yes">Realizado</option>
                         </select>
                     </div>
@@ -354,24 +357,24 @@
             </form>
             <form id="formO">
                 <div id="manO" class="manutencao">
-                    <div class="campo"><span>C�digo</span> <input type="text" name="codigo" disabled></div>
+                    <div class="campo"><span>Código</span> <input type="text" name="codigo" disabled></div>
                     <div class="campo"><span>Categoria</span> 
                         <select name="categoria">
-                            <option value="Doenca">Doen�a</option>
-                            <option value="Queda de producao">Queda de produ��o</option>
+                            <option value="Doenca">Doença</option>
+                            <option value="Queda de producao">Queda de produção</option>
                             <option value="Problema alimentar">Problema alimentar</option>
                             <option value="Mortalidade">Mortalidade</option>
                             <option value="Acidente">Acidente</option>
                         </select>
                     </div>
-                    <div class="campo"><span>Descri��o</span> <input type="text" name="descricao"></div>
+                    <div class="campo"><span>Descrição</span> <input type="text" name="descricao"></div>
                     <div class="campo"><span>Animal</span> <input type="text" name="animal" data-zoom="An1"></div>
-                    <div class="campo"><span>Funcion�rio</span> <input type="text" name="func" data-zoom="F"></div>
+                    <div class="campo"><span>Funcionário</span> <input type="text" name="func" data-zoom="F"></div>
                     <div class="campo"><span>Data</span> <input type="date" name="data"></div>
                     <div class="campo"><span>Status</span>
                         <select name="vstatus">
                             <option value="Aberto">Aberto</option>
-                            <option value="Em analise">Em an�lise</option>
+                            <option value="Em analise">Em análise</option>
                             <option value="Em tratamento">Em tratamento</option>
                             <option value="Resolvido">Resolvido</option>
                             <option value="Cancelado">Cancelado</option>
@@ -383,14 +386,21 @@
             </form>
         </div>
         
-        <div id="man" class="man">
-            <input type="button" value="Excluir" class="botao" id="excluir">
-            <input type="button" value="Alterar" class="botao" id="alterar">
-            <input type="button" value="Incluir" class="botao" id="incluir">
+        <div id="man">
+            <div class="btrelat">
+                <input type="button" value="Relatório" id="relatorio" class="botao">
+            </div>
+            <div class="man">
+                <input type="button" value="Excluir" class="botao" id="excluir">
+                <input type="button" value="Alterar" class="botao" id="alterar">
+                <input type="button" value="Incluir" class="botao" id="incluir">
+            </div>
         </div>
-        <div class="man" id="man2">
-            <input type="button" value="Voltar" class="botao" id="voltar">
-            <input type="button" value="Salvar" class="botao" id="salvar">
+        <div id="man2">
+            <div class="man">
+                <input type="button" value="Voltar" class="botao" id="voltar">
+                <input type="button" value="Salvar" class="botao" id="salvar">
+            </div>
         </div>
 
         <div class="overlay">
@@ -405,7 +415,7 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>C�digo</th>
+                                    <th>Código</th>
                                     <th class="alignleft">Nome</th>
                                 </tr>
                             </thead>
@@ -423,7 +433,7 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>C�digo</th>
+                                    <th>Código</th>
                                     <th class="alignleft">Nome</th>
                                 </tr>
                             </thead>
@@ -441,7 +451,7 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>C�digo</th>
+                                    <th>Código</th>
                                     <th class="alignleft">Nome</th>
                                 </tr>
                             </thead>
@@ -459,7 +469,7 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>C�digo</th>
+                                    <th>Código</th>
                                     <th class="alignleft">Nome</th>
                                 </tr>
                             </thead>
@@ -477,7 +487,7 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>C�digo</th>
+                                    <th>Código</th>
                                     <th class="alignleft">Nome</th>
                                 </tr>
                             </thead>
