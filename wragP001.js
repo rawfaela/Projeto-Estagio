@@ -39,7 +39,7 @@ const config = {
             { key: "criacao", class: "alignleft" }
         ]),
         show: ["#selP", "#valorpesq"],
-        hide: ["#selectsEspecificos", "#selF", "#selL", "#selAn1", "#selAn2", "#selA", "#selO", "#selG"]
+        hide: ["#selectsEspecificos", "#selF", "#selL", "#selAn1", "#selAn2", "#selA", "#selO", "#selG", ".btrelat"]
     },
     F: {
         getTable: () => $("#contentF tbody"),
@@ -53,7 +53,7 @@ const config = {
             { class: "alignleft", fn: (d) => `${d["lote"] == 0 ? "" : d["lote"]} - ${d["lote-nome"]}`},
             { class: "alignleft", fn: (d) => `${d["prop"]} - ${d["prop-nome"]}`}
         ]),
-        show: ["#selF", "#valorpesq"],
+        show: ["#selF", "#valorpesq", ".btrelat"],
         hide: ["#selectsEspecificos", "#selP", "#selL", "#selAn1", "#selAn2", "#selA", "#selO", "#selG"]
     },
     L: {
@@ -65,7 +65,7 @@ const config = {
             { class: "alignleft", fn: (d) => `${d["prop"]} - ${d["prop-nome"]}`}
         ]),
         show: ["#selL", "#valorpesq"],
-        hide: ["#selectsEspecificos", "#selP", "#selF", "#selAn1", "#selAn2", "#selA", "#selO", "#selG"]
+        hide: ["#selectsEspecificos", "#selP", "#selF", "#selAn1", "#selAn2", "#selA", "#selO", "#selG", ".btrelat"]
     },
     O: {
         getTable: () => $("#contentO tbody"),
@@ -80,7 +80,7 @@ const config = {
             { class: "alignleft", fn: (d) => `${d["lote"]} - ${d["lote-nome"]}`},
             { class: "alignleft", fn: (d) => `${d["prop"]} - ${d["prop-nome"]}`}
         ]),
-        show: ["#selO", "#valorpesq", "#selectO", "#selectsEspecificos"],
+        show: ["#selO", "#valorpesq", "#selectO", "#selectsEspecificos", ".btrelat"],
         hide: ["#selP", "#selL", "#selAn1", "#selAn2", "#selA", "#selF", "#selG","#selectA", "#selectAn", "#selectAn2", "#selectG"]
     },
     A: {
@@ -92,12 +92,12 @@ const config = {
             { key: "motivo", class: "alignleft"},
             { key: "data-str"},
             { key: "hora"},
-            { fn: (d) => `${d["aprovado"] ? "Sim" : "Não"}`},
-            { fn: (d) => `${d["vstatus"] ? "Realizado" : "Não realizado"}`},
+            { fn: (d) => `${d["aprovado"] ? "Sim" : "NÃ£o"}`},
+            { fn: (d) => `${d["vstatus"] ? "Realizado" : "NÃ£o realizado"}`},
             { class: "alignleft", fn: (d) => `${d["prop"]} - ${d["prop-nome"]}`}
         ]),
         show: ["#selA", "#valorpesq", "#selectA", "#selectsEspecificos"],
-        hide: ["#selF", "#selL", "#selAn1", "#selAn2", "#selO", "#selP", "#selG", "#selectO", "#selectG", "#selectAn", "#selectAn2"]
+        hide: ["#selF", "#selL", "#selAn1", "#selAn2", "#selO", "#selP", "#selG", "#selectO", "#selectG", "#selectAn", "#selectAn2", ".btrelat"]
     },
     An: {
         getTable: () => state.subTab === "An1" ? $("#contentAn1 tbody") : $("#contentAn2 tbody"),
@@ -122,7 +122,7 @@ const config = {
                 ]);
             }
         },
-        show: ["#valorpesq", "#selectsEspecificos"],
+        show: ["#valorpesq", "#selectsEspecificos", ".btrelat"],
         hide: ["#selF", "#selL", "#selO", "#selA", "#selP", "#selG", "#selectO", "#selectA", "#selectG"]
     },
     G: {
@@ -254,7 +254,7 @@ $(document).on("change", "#selectsEspecificos select", function(){
 
 
 //todo --------- MANUTENCAO -----------------------------------------------
-//? qual form de manutenção vai aparecer
+//? qual form de manutenÃ§Ã£o vai aparecer
 function getForm(tab, subTab){
     if(tab == "An"){
         return (subTab == "An1") ? "#formAn1" : "#formAn2";
@@ -263,7 +263,7 @@ function getForm(tab, subTab){
     }
 }
 
-//? mostrar tela de manutenção
+//? mostrar tela de manutenÃ§Ã£o
 function abrirManutencao(titulo, tab, subTab){
     $("#consulta, #man, .manutencao").hide();
     $("#manutencao, #man2").css("display","flex");
@@ -276,7 +276,7 @@ function abrirManutencao(titulo, tab, subTab){
     }
 }
 
-//? ação botoes de manutenção
+//? aÃ§Ã£o botoes de manutenÃ§Ã£o
 $(document).on("click", ".botao", function(){
     let id = $(this).attr("id");
 
@@ -299,7 +299,7 @@ $(document).on("click", ".botao", function(){
                    vcodigo: dados.codigo || ''},
             success:function(response){
                 if(response && response.replace(/\?/g, "").trim() !== ""){
-                    alert("Não é possível excluir, existem registros vinculados.");  
+                    alert("NÃ£o Ã© possÃ­vel excluir, existem registros vinculados.");  
                 } else {
                     fpesquisar();  
                 }
@@ -338,7 +338,7 @@ $(document).on("click", ".botao", function(){
             }
         }
         
-        abrirManutencao("Alterar", state.tab, state.subTab)
+        abrirManutencao("Alterar", state.tab, state.subTab);
         $("select[name='vstatus'], select[name='aprovado']").removeClass("select-disabled");
         $("input[name='nasc']").addClass("select-disabled");
 
@@ -348,7 +348,7 @@ $(document).on("click", ".botao", function(){
         $("#consulta").show();
         $("#man").show();
         $("#manutencao").hide();
-        $("#titulo").text("Gestão de Propriedade Rural");
+        $("#titulo").text("GestÃ£o de Propriedade Rural");
         $("#man2").css("display","none");
         $(".manutencao").css("display","none");
     };
@@ -357,7 +357,7 @@ $(document).on("click", ".botao", function(){
         $("form").each(function(){ this.reset(); });
         codigo = ''; 
     
-        abrirManutencao("Inclusão", state.tab, state.subTab)
+        abrirManutencao("InclusÃ£o", state.tab, state.subTab)
         $("select[name='vstatus'], select[name='aprovado']").addClass("select-disabled");
         $("input[type='date']").removeClass("select-disabled");
     }
@@ -403,7 +403,7 @@ $(document).on("click", ".botao", function(){
                 codigo = '';
                 $("#consulta, #man").show();
                 $("#manutencao").hide();
-                $("#titulo").text("Gestão de Propriedade Rural");
+                $("#titulo").text("GestÃ£o de Propriedade Rural");
                 $("#man2").css("display","none");
                 $(".manutencao").hide();
                 fpesquisar();
@@ -413,7 +413,23 @@ $(document).on("click", ".botao", function(){
             }
         });
     }
+
+
+//todo --------- RELATÃ“RIO --------------------------------------------------
+    if (id == "relatorio"){
+        showLoading();
+        let url = "/webpro/weball/wragP001d" + state.tab;
+        $("#iframeR").off("load") 
+                         .on("load", function() {hideLoading();})
+                         .attr("src", url);
+        $("#contentR").addClass("show");
+        $("#man, #pesq, #divtable").hide();
+    }
 });
+
+$(document).on("click", "[name='bretornar.x']", function(){
+    $("#divtable").show();
+})
 
 
 //todo --------- ZOOM ----------------------------------------------------
@@ -537,7 +553,9 @@ function toggleElements(show = [], hide = []){
 function attUI(){
     activateTab("main", state.tab);
     showContent("#divtable", state.tab);
-    
+    $("#divtable").show();
+    $("#contentR").removeClass("show");
+
     if(state.tab === "An"){
         activateTab("animais", state.subTab);
         showContent("#contentAn", state.subTab);
@@ -602,16 +620,16 @@ function renderGrafico(){
               "&dataini=" + dataini +
               "&datafim=" + datafim;
 
-    $("#iframe").attr("src", url);
+    $("#iframeG").attr("src", url);
 }
 
-//? pesquisa no grafico
+//? pesquisa no grafico 
 $(document).on("change", "#seleG, #dataini, #datafim", function(){
     renderGrafico();
 });
 
 
-//todo --------- FORMATAÇÃO ---------------------------------------------
+//todo --------- FORMATAÃ‡ÃƒO ---------------------------------------------
 //? ordena lista por data
 function orderbyDate(lista){
     return lista.sort((a, b) => new Date(b.data) - new Date(a.data));
