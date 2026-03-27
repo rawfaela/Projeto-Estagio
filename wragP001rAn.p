@@ -20,9 +20,6 @@ assign vprop = batweb.batpari[1]
 find prop where prop.codigo = vprop no-lock no-error.
 find vlote where vlote.codigo = vvlote no-lock no-error.
 
-def buffer bprop for prop.
-def buffer blote for vlote.
-
 for each animal no-lock 
     where (vprop = 0 or animal.prop = vprop) and
           (vvlote = 0 or animal.lote = vvlote) and
@@ -32,23 +29,19 @@ for each animal no-lock
           (vdatafim = ? or animal.nasc <= vdatafim)
     break by animal.prop by animal.lote by animal.nasc desc by animal.sexo:
 
-    find bprop where bprop.codigo = animal.prop no-lock no-error.
+    find prop where prop.codigo = animal.prop no-lock no-error.
 
     if first-of(animal.prop) then do:
-        finicio(2).
-        final(yes, 100, "agrupar").
         finicio(3).
-        fcaixa("C","<b>" + bprop.nome + "</b>","C","<b>Propriedade</b>","",1,0).
+        fcaixa("C","<b>" + prop.nome + "</b>","C","<b>Propriedade</b>","",1,0).
         final(yes,100,"agrupar").
     end.
 
-    find blote where blote.codigo = animal.lote no-lock no-error.
+    find vlote where vlote.codigo = animal.lote no-lock no-error.
 
     if first-of(animal.lote) then do:
         finicio(2).
-        final(yes, 100, "agrupar").
-        finicio(2).
-        fcaixa("E", blote.nome, "E","<b>Lote</b>","",1,0).
+        fcaixa("E", vlote.nome, "E","<b>Lote</b>","",1,0).
         final(yes,100,"agrupar").
     end.
 
