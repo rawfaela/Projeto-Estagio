@@ -37,7 +37,7 @@ procedure p_load:
     def var vgra-bars as class GPadBars.
     def var temDados1 as log no-undo.
 
-    vgra-bars = new GPadBars(1,"Ocorrências por Categoria","49.5%","70%").
+    vgra-bars = new GPadBars(1,"OcorrÃªncias por Categoria","49.5%","70%").
     vgra-bars:setSubtitle("").
     vgra-bars:setLabel(false).
 
@@ -70,13 +70,13 @@ procedure p_load:
     def var cont2 as int.
     def var temDados2 as log no-undo.
 
-    assign vgra-lines = new GPadLines(2,"Ocorrências por Período","49.5%","70%").
+    assign vgra-lines = new GPadLines(2,"OcorrÃªncias por PerÃ­odo","49.5%","70%").
     vgra-lines:setSubtitle("").
     vgra-lines:setLabel(false).
     vgra-lines:setPointVisible(true).
     vgra-lines:setLegendBottom(true).
     vgra-lines:setExport().
-    vgra-lines:setSeries("OC","Ocorrências").
+    vgra-lines:setSeries("OC","OcorrÃªncias").
 
     for each ocorrencia no-lock where ocorrencia.prop = vprop and (dIni = ? or ocorrencia.data >= dIni)
         and (dFim = ? or ocorrencia.data <= dFim)
@@ -105,7 +105,7 @@ procedure p_load:
     def var cont4 as int.
     def var vtotal as int.
     def var temDados4 as log no-undo.
-    assign vgra-doughnuts = new GPadDoughnut(3,"Distribuição por Sexo","49.5%","70%").
+    assign vgra-doughnuts = new GPadDoughnut(3,"DistribuiÃ§Ã£o por Sexo","49.5%","70%").
     vgra-doughnuts:setSubtitle("Animais").
     vgra-doughnuts:setLabel(true).
     vgra-doughnuts:setExport().
@@ -139,7 +139,7 @@ procedure p_load:
 
     def var cont5 as int.
     def var temDados5 as log no-undo.
-    assign vgra-bars = new GPadBars(4,"Capacidade VS Ocupação dos Lotes","49.5%","70%").
+    assign vgra-bars = new GPadBars(4,"Capacidade VS OcupaÃ§Ã£o dos Lotes","49.5%","70%").
     vgra-bars:setSubtitle("").
     vgra-bars:setRotate(false).
     vgra-bars:setLabel(true).
@@ -150,7 +150,7 @@ procedure p_load:
     vgra-bars:setTooltipInfo(3).
     vgra-bars:setLegendBottom(false).
     vgra-bars:setSeries("CA1","Capacidade").
-    vgra-bars:setSeries("CA2","Ocupação").
+    vgra-bars:setSeries("CA2","OcupaÃ§Ã£o").
 
     for each vlote no-lock where vlote.prop = vprop:
         temDados5 = true.
@@ -198,7 +198,7 @@ procedure p_load:
 
     def var temDados6 as log no-undo.
     def var cont6 as int.
-    assign vgra-lines = new GPadLines(6,"Visitantes por Período","49.5%","70%").
+    assign vgra-lines = new GPadLines(6,"Visitantes por PerÃ­odo","49.5%","70%").
     vgra-lines:setSubtitle("").
     vgra-lines:setLabel(false).
     vgra-lines:setPointVisible(true).
