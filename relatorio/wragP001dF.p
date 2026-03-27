@@ -5,7 +5,7 @@ function fprop returns char() forwards.
 function flote returns char() forwards.
 
 procedure p_setparams:
-    assign vpad-titulo = "Funcion·rios por propriedade"
+    assign vpad-titulo = "Funcion√°rios por propriedade"
            vpad-numcol = 2
            vpad-programa = "wragP001rF.p"
            vpad-btdisp = true.
