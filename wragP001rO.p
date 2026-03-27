@@ -13,8 +13,6 @@ assign vprop    = batweb.batpari[1]
 
 find prop where prop.codigo = vprop no-lock no-error.
 
-def buffer bprop for prop.
-
 for each ocorrencia no-lock
     where (vprop    = 0 or ocorrencia.prop  = vprop)
       and (vdataini = ? or ocorrencia.data >= vdataini)
@@ -24,21 +22,17 @@ for each ocorrencia no-lock
           by ocorrencia.categoria
           by ocorrencia.data:
 
-    find bprop where bprop.codigo = ocorrencia.prop no-lock no-error.
+    find prop where prop.codigo = ocorrencia.prop no-lock no-error.
 
     if first-of(ocorrencia.prop) then do:
-        finicio(2).
-        final(yes, 100, "agrupar").
         finicio(3).
-        fcaixa("C", "<b>" + bprop.nome + "</b>", "C", "<b>Propriedade</b>", "", 1, 0).
+        fcaixa("C", "<b>" + prop.nome + "</b>", "C", "<b>Propriedade</b>", "", 1, 0).
         final(yes, 100, "agrupar").
     end.
 
     if first-of(ocorrencia.categoria) then do:
         finicio(2).
-        final(yes, 100, "agrupar").
-        finicio(2).
-        fcaixa("E","<b>" + ocorrencia.categoria + "</b>", "E", "<b>Categoria</b>", "", 1, 0).
+        fcaixa("E",ocorrencia.categoria, "E", "<b>Categoria</b>", "", 1, 0).
         final(yes, 100, "agrupar").
     end.
 
