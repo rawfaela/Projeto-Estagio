@@ -11,32 +11,25 @@ assign vvlote = batweb.batpari[2].
 find prop where prop.codigo = vprop no-lock no-error.
 find vlote where vlote.codigo = vvlote no-lock no-error.
 
-def buffer bprop for prop.
-def buffer blote for vlote.
-
 for each func no-lock
     where (vprop = 0 or func.prop = vprop) and
           (vvlote = 0 or func.lote = vvlote)
     break by func.prop
           by func.lote:
 
-    find bprop where bprop.codigo = func.prop no-lock no-error.
+    find prop where prop.codigo = func.prop no-lock no-error.
 
     if first-of(func.prop) then do:
-        finicio(2).
-        final(yes, 100, "agrupar").
-        finicio(1).
-        fcaixa("C","<b>" + bprop.nome + "</b>","C","<b>Propriedade</b>","",1,0).
+        finicio(3).
+        fcaixa("C","<b>" + prop.nome + "</b>","C","<b>Propriedade</b>","",1,0).
         final(yes, 100, "agrupar").
     end.
 
-    find blote where blote.codigo = func.lote no-lock no-error.
+    find vlote where vlote.codigo = func.lote no-lock no-error.
 
     if first-of(func.lote) then do:
         finicio(2).
-        final(yes, 100, "agrupar").
-        finicio(3).
-        fcaixa("E",if available blote then blote.nome else "Não especificado","E","<b>Lote</b>","",1,0).
+        fcaixa("E",if available vlote then vlote.nome else "NÃ£o especificado","E","<b>Lote</b>","",1,0).
         final(yes,100,"agrupar").
     end.
 
