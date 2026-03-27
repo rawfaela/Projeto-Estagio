@@ -20,7 +20,7 @@ for each ocorrencia no-lock
 
     break by ocorrencia.prop
           by ocorrencia.categoria
-          by ocorrencia.data:
+          by ocorrencia.data desc:
 
     find prop where prop.codigo = ocorrencia.prop no-lock no-error.
 
