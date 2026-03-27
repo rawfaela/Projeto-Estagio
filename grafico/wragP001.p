@@ -58,27 +58,27 @@ procedure p_show_html:
 end procedure.
 
 function fSemAcento returns char (pcTexto as char):
-    assign pcTexto = replace(pcTexto, "á","a").
-    assign pcTexto = replace(pcTexto, "à","a").
-    assign pcTexto = replace(pcTexto, "ã","a").
-    assign pcTexto = replace(pcTexto, "â","a").
-    assign pcTexto = replace(pcTexto, "ä","a").
-    assign pcTexto = replace(pcTexto, "é","e").
-    assign pcTexto = replace(pcTexto, "ê","e").
-    assign pcTexto = replace(pcTexto, "è","e").
-    assign pcTexto = replace(pcTexto, "ë","e").
-    assign pcTexto = replace(pcTexto, "í","i").
-    assign pcTexto = replace(pcTexto, "ì","i").
-    assign pcTexto = replace(pcTexto, "ï","i").
-    assign pcTexto = replace(pcTexto, "ó","o").
-    assign pcTexto = replace(pcTexto, "ô","o").
-    assign pcTexto = replace(pcTexto, "õ","o").
-    assign pcTexto = replace(pcTexto, "ò","o").
-    assign pcTexto = replace(pcTexto, "ö","o").
-    assign pcTexto = replace(pcTexto, "ú","u").
-    assign pcTexto = replace(pcTexto, "ù","u").
-    assign pcTexto = replace(pcTexto, "ü","u").
-    assign pcTexto = replace(pcTexto, "ç","c").
+    assign pcTexto = replace(pcTexto, "Ã¡","a").
+    assign pcTexto = replace(pcTexto, "Ã ","a").
+    assign pcTexto = replace(pcTexto, "Ã£","a").
+    assign pcTexto = replace(pcTexto, "Ã¢","a").
+    assign pcTexto = replace(pcTexto, "Ã¤","a").
+    assign pcTexto = replace(pcTexto, "Ã©","e").
+    assign pcTexto = replace(pcTexto, "Ãª","e").
+    assign pcTexto = replace(pcTexto, "Ã¨","e").
+    assign pcTexto = replace(pcTexto, "Ã«","e").
+    assign pcTexto = replace(pcTexto, "Ã­","i").
+    assign pcTexto = replace(pcTexto, "Ã¬","i").
+    assign pcTexto = replace(pcTexto, "Ã¯","i").
+    assign pcTexto = replace(pcTexto, "Ã³","o").
+    assign pcTexto = replace(pcTexto, "Ã´","o").
+    assign pcTexto = replace(pcTexto, "Ãµ","o").
+    assign pcTexto = replace(pcTexto, "Ã²","o").
+    assign pcTexto = replace(pcTexto, "Ã¶","o").
+    assign pcTexto = replace(pcTexto, "Ãº","u").
+    assign pcTexto = replace(pcTexto, "Ã¹","u").
+    assign pcTexto = replace(pcTexto, "Ã¼","u").
+    assign pcTexto = replace(pcTexto, "Ã§","c").
     return pcTexto.
 end function.
 
@@ -403,11 +403,11 @@ procedure p_grava:
             else if hField:name = "vstatus" and criou then do:
                 case vtabela:
                     when "animal" then assign hField:buffer-value = "Ativo".
-                    when "acesso" then assign hField:buffer-value = "Não realizado".
+                    when "acesso" then assign hField:buffer-value = "NÃ£o realizado".
                     when "ocorrencia" then assign hField:buffer-value = "Aberto".
                 end case.
             end.
-            else if hfield:name = "aprovado" and criou then assign hField:buffer-value = "Não".
+            else if hfield:name = "aprovado" and criou then assign hField:buffer-value = "NÃ£o".
             else
                 assign hField:buffer-value = trim(get-value(hField:name)).
         end.
