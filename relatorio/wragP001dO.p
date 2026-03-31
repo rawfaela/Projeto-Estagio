@@ -25,11 +25,11 @@ end procedure.
 
 procedure p_disparar:
     create tp-batweb.
-    assign tp-batweb.batdes = vpad-titulo
-           tp-batweb.batprog = vpad-programa
+    assign tp-batweb.batdes      = vpad-titulo
+           tp-batweb.batprog     = vpad-programa
            tp-batweb.batpardc[1] = 2.2
            tp-batweb.batparlg[1] = yes
-           tp-batweb.batpari[1] = int(get-value("vprop"))
+           tp-batweb.batpari[1]  = int(get-value("vprop"))
            tp-batweb.batpardt[1] = today
            tp-batweb.batpardt[2] = date(get-value("vdataini"))
            tp-batweb.batpardt[3] = date(get-value("vdatafim")).
