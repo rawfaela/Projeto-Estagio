@@ -1,13 +1,14 @@
-var S = '?';
-var url_atual = '';
-var inputZoom = null;
+var S             = '?';
+var url_atual     = '';
+var inputZoom     = null;
+var inputNomeZoom = null;
 
 //todo --------- BASICO --------------------------------------------------
 const state = {
-    tab: "P",
-    subTab: "An1",
+    tab:     "P",
+    subTab:  "An1",
     vselect: "codigo",
-    delay: null
+    delay:   null
 }
 
 //? inicial
@@ -76,7 +77,7 @@ const config = {
             { class: "alignleft", fn: (d) => `${d["animal"]} - ${d["animal-nome"]}`},
             { key: "func-nome", class: "alignleft" },
             { key: "data-str"},
-            { key: "vstatus"},
+            { key: "fstatus"},
             { class: "alignleft", fn: (d) => `${d["lote"]} - ${d["lote-nome"]}`},
             { class: "alignleft", fn: (d) => `${d["prop"]} - ${d["prop-nome"]}`}
         ]),
@@ -93,11 +94,11 @@ const config = {
             { key: "data-str"},
             { key: "hora"},
             { fn: (d) => `${d["aprovado"] ? "Sim" : "Não"}`},
-            { fn: (d) => `${d["vstatus"] ? "Realizado" : "Não realizado"}`},
+            { fn: (d) => `${d["fstatus"] ? "Realizado" : "Não realizado"}`},
             { class: "alignleft", fn: (d) => `${d["prop"]} - ${d["prop-nome"]}`}
         ]),
-        show: ["#selA", "#valorpesq", "#selectA", "#selectsEspecificos"],
-        hide: ["#selF", "#selL", "#selAn1", "#selAn2", "#selO", "#selP", "#selG", "#selectO", "#selectG", "#selectAn", "#selectAn2", ".btrelat"]
+        show: ["#selA", "#valorpesq", "#selectA", "#selectsEspecificos", ".btrelat"],
+        hide: ["#selF", "#selL", "#selAn1", "#selAn2", "#selO", "#selP", "#selG", "#selectO", "#selectG", "#selectAn", "#selectAn2"]
     },
     An: {
         getTable: () => state.subTab === "An1" ? $("#contentAn1 tbody") : $("#contentAn2 tbody"),
@@ -114,7 +115,7 @@ const config = {
                     { key: "nome", class: "alignleft"},
                     { class: "alignleft", fn: (d) => `${d["animais-id"]} - ${d["animais-nome"]}`},
                     { fn: (d) => `${d.sexo ? "M" : "F"}`},
-                    { key: "vstatus"},
+                    { key: "fstatus"},
                     { key: "nasc-str"},
                     { key: "peso"},
                     { class: "alignleft", fn: (d) => `${d["lote"]} - ${d["lote-nome"]}`},
@@ -136,7 +137,7 @@ const config = {
 //? trocar de tab
 $(document).on("click", ".tabs", function(){
     let grupo = $(this).data("group");
-    let tab = $(this).data("tab");
+    let tab   = $(this).data("tab");
 
     state.vselect = "codigo";
     $("#valorpesq").val("");
@@ -180,7 +181,7 @@ function renderGeneric(tabela, data, campos){
         for(let key in d){
             let valor = d[key];
 
-            if(key === "aprovado" || (key === "vstatus" && typeof valor === "boolean")){
+            if(key === "aprovado" || (key === "fstatus" && typeof valor === "boolean")){
                 valor = valor ? "yes" : "no";
             }
             else if(key === "sexo"){
@@ -231,13 +232,20 @@ function buscarDados(){
     $("#selectsEspecificos select").each(function(){
         dadosSelects[this.id] = $(this).val();
     });
-    return ajax("p_getDados", {
-        vpesq: $("#valorpesq").val(),
+    return ajax("p_getDados", $.param({
         vselect: state.vselect,
         vtabela: state.tab,
         vsubtabela: state.subTab,
         ...dadosSelects
-    });
+    }) + "&vpesq=" + toISO($("#valorpesq").val()));
+}
+
+//? mandar p getdados sem acento
+function toISO(str) {
+    return [...str].map(c => c.charCodeAt(0) > 127
+        ? "%" + c.charCodeAt(0).toString(16).toUpperCase()
+        : encodeURIComponent(c)
+    ).join("");
 }
 
 //? quando select mudar
@@ -276,6 +284,25 @@ function abrirManutencao(titulo, tab, subTab){
     }
 }
 
+//? carrega nome da fkf vinculada
+function loadNameFK(formId, campo, tabela){
+    let codigo = $(formId + ` [name='${campo}']`).val();
+
+    if(!codigo) return;
+
+    ajax("p_getDados", {
+        vtabela: tabela,
+        vselect: "codigo",
+        vpesq: codigo
+    }).then((data) => {
+        let lista = data.ds_tudo[`tt_${tabela.toLowerCase()}`];
+
+        if(lista && lista.length){
+            $(formId + ` [name='${campo}nome']`).val(lista[0].nome);
+        }
+    });
+}
+
 //? ação botoes de manutenção
 $(document).on("click", ".botao", function(){
     let id = $(this).attr("id");
@@ -297,6 +324,7 @@ $(document).on("click", ".botao", function(){
             data: {vtabela: state.tab,
                    vsubtabela: state.subTab,
                    vcodigo: dados.codigo || ''},
+
             success:function(response){
                 if(response && response.replace(/\?/g, "").trim() !== ""){
                     alert("Não é possível excluir, existem registros vinculados.");  
@@ -304,6 +332,7 @@ $(document).on("click", ".botao", function(){
                     fpesquisar();  
                 }
             },
+
             error:function(err){
                 console.error("Erro ao excluir:", err);
             }
@@ -337,9 +366,14 @@ $(document).on("click", ".botao", function(){
                 input.val(dados[campo]);
             }
         }
-        
+        loadNameFK(formId, "prop",       "prop");
+        loadNameFK(formId, "lote",       "lote");
+        loadNameFK(formId, "func",       "func");
+        loadNameFK(formId, "animais-id", "animais");
+        loadNameFK(formId, "animal",     "animal");
+
         abrirManutencao("Alterar", state.tab, state.subTab);
-        $("select[name='vstatus'], select[name='aprovado']").removeClass("select-disabled");
+        $("select[name='fstatus'], select[name='aprovado']").removeClass("select-disabled");
         $("input[name='nasc']").addClass("select-disabled");
 
     }
@@ -358,23 +392,20 @@ $(document).on("click", ".botao", function(){
         codigo = ''; 
     
         abrirManutencao("Inclusão", state.tab, state.subTab)
-        $("select[name='vstatus'], select[name='aprovado']").addClass("select-disabled");
+        $("select[name='fstatus'], select[name='aprovado']").addClass("select-disabled");
         $("input[type='date']").removeClass("select-disabled");
     }
     
     if(id == "salvar"){
         let formId;
         formId = getForm(state.tab, state.subTab);
-        $(formId + " input[name='peso']").each(function(){
-            $(this).val($(this).val().replace(".", ","));
-        });
 
         var dadosForm = isoSerialize(formId);
         let proc = (!codigo || codigo == '' || codigo == '0') ? "p_criareg" : "p_grava";
                
         let vazio = false;
 
-        $(formId + " input:not([name='codigo']), " + formId + " select:not([name='status']):not([name='aprovado'])").each(function(){
+        $(formId + " select:not([name='status']):not([name='aprovado'])").each(function(){
             if($(this).val().trim() === ""){
                 vazio = true;
                 $(this).focus();
@@ -399,6 +430,7 @@ $(document).on("click", ".botao", function(){
                   "&vtabela=" + state.tab +
                   "&vsubtabela=" + state.subTab +
                   "&vcodigo=" + codigo,
+
             success:function(){
                 codigo = '';
                 $("#consulta, #man").show();
@@ -408,6 +440,7 @@ $(document).on("click", ".botao", function(){
                 $(".manutencao").hide();
                 fpesquisar();
             },
+
             error:function(err){
                 console.error("Erro ao salvar:", err);
             }
@@ -420,8 +453,8 @@ $(document).on("click", ".botao", function(){
         showLoading();
         let url = "/webpro/weball/wragP001d" + state.tab;
         $("#iframeR").off("load") 
-                         .on("load", function() {hideLoading();})
-                         .attr("src", url);
+                     .on("load", function() {hideLoading();})
+                     .attr("src", url);
         $("#contentR").addClass("show");
         $("#man, #pesq, #divtable").hide();
     }
@@ -435,8 +468,9 @@ $(document).on("click", "[name='bretornar.x']", function(){
 //todo --------- ZOOM ----------------------------------------------------
 //? entrar no zoom
 $(document).on("focus", "input[data-zoom]", function(){
-    let tipo = $(this).data("zoom");
-    inputZoom = $(this);
+    let tipo      = $(this).data("zoom");
+    inputZoom     = $(this);
+    inputNomeZoom = $(this).next("input");
 
     $(".zoom:visible .valorpesq").val("");
 
@@ -456,34 +490,10 @@ $(document).on("click", ".overlay", function(e){
 //? pesquisa do zoom
 $(document).on("keyup", ".zoom .valorpesq", function(){
     let valor = $(this).val();
-    let tipo = $(this).closest(".content").attr("id").replace("zoom","");
+    let tipo  = $(this).closest(".content").attr("id").replace("zoom","");
 
     fzoom(tipo, valor);
 });
-
-//? func do zoom
-function fzoom(tipo, valor){
-    let params = { vpesq: valor, vselect: "nome" };
-
-    if(tipo == "L"){
-        let prop = inputZoom.closest("form").find("input[name='prop']").val();
-        if(prop){
-            params.vprop = prop;
-            params.visLote = true;
-        }
-    }
-
-    ajax("p_getDados", params)
-    .then((data)=>{
-        const cfg = configZoom[tipo];
-        if(!cfg) return;
-    
-        const tabela = cfg.table();
-        tabela.empty();
-    
-        cfg.render(tabela, data);    
-    })
-}
 
 //? config zoom
 const configZoom = {
@@ -524,11 +534,38 @@ const configZoom = {
     }
 }
 
+//? func do zoom
+function fzoom(tipo, valor){
+    let params = { vpesq: valor, vselect: "nome" };
+
+    if(tipo == "L"){
+        let prop = inputZoom.closest("form").find("input[name='prop']").val();
+        if(prop){
+            params.vprop = prop;
+            params.visLote = true;
+        }
+    }
+
+    ajax("p_getDados", params)
+    .then((data)=>{
+        const cfg = configZoom[tipo];
+        if(!cfg) return;
+    
+        const tabela = cfg.table();
+        tabela.empty();
+    
+        cfg.render(tabela, data);    
+    })
+}
+
 //? seleciona fk no zoom
 $(document).on("click",".zoom tbody tr",function(){
     let codigo = $(this).data("codigo");
+    let nome   = $(this).data("nome");
+
     if(inputZoom){
         inputZoom.val(codigo);
+        inputNomeZoom.val(nome);
     }
     $(".overlay").hide();
 });
@@ -611,7 +648,7 @@ function renderSelectGrafico(data){
 
 //? carrega graficos
 function renderGrafico(){
-    let prop = $("#seleG").val();
+    let prop    = $("#seleG").val();
     let dataini = $("#dataini").val() || "";
     let datafim = $("#datafim").val() || "";
 
@@ -635,6 +672,11 @@ function orderbyDate(lista){
     return lista.sort((a, b) => new Date(b.data) - new Date(a.data));
 }
 
+//? nao deixa escrever nos campos de fk
+$(document).on("focus","input[name='prop'],input[name='lote'],input[name='animais-id'],input[name='func'],input[name='animal']", function(){
+    $(this).prop("readonly", true);
+})
+
 //? formata cpf ao digitar
 $(document).on("input", "input[name='cpf']", function() {
     let v = $(this).val().replace(/\D/g, '');
@@ -644,6 +686,15 @@ $(document).on("input", "input[name='cpf']", function() {
     v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
     $(this).val(v);
 });
+
+//? formata peso ao digitary
+$(document).on("input","input[name='peso']", function(){
+    $(this).val(
+        $(this).val()
+          .replace(/[^0-9.,]/g, '')
+          .replace('.', ',')
+      );
+})
 
 //? formata fone ao digitar
 $(document).on("input", "input[name='fone']", function() {
