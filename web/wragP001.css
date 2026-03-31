@@ -119,7 +119,7 @@ select{
 select:hover{
     cursor: pointer;
 }
-input[type="text"], input[type="time"],input[type="date"]{
+input[type="text"], input[type="time"],input[type="date"],input[type="number"]{
     height: 20px;
     border: 1px #82b5dc solid;
     color: #2b4184;
@@ -290,4 +290,31 @@ input:disabled {
 }
 #contentR{
     height: 100%;
+}
+
+.inputzoom{
+    width: 15px !important;
+    text-align: right;
+}
+
+#divtable {
+    flex: 1;
+    overflow-y: auto;
+}
+
+#divtable::-webkit-scrollbar {
+    width: 12px;
+}
+
+#divtable::-webkit-scrollbar-track {
+    background: #eff4f9;
+}
+
+#divtable::-webkit-scrollbar-thumb {
+    background: white;
+    border: 1px solid #b4d5ee;
+}
+
+#divtable::-webkit-scrollbar-thumb:hover {
+    background: #d6ebfb;
 }
