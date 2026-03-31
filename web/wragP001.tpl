@@ -235,8 +235,8 @@
                             <tr>
                                 <th></th>
                                 <th>Código</th>
-                                <th class="alignleft">Nome</th>
-                                <th>Tipo</th>
+                                <th class="alignleft">Nome Visitante</th>
+                                <th class="alignleft">Tipo Visitante</th>
                                 <th class="alignleft">Motivo</th>
                                 <th>Data</th>
                                 <th>Hora</th>
@@ -254,7 +254,7 @@
                             <tr>
                                 <th></th>
                                 <th>Código</th>
-                                <th>Categoria</th>
+                                <th class="alignleft">Categoria</th>
                                 <th class="alignleft">Descrição</th>
                                 <th class="alignleft">Animal</th>
                                 <th class="alignleft">Funcionário</th>
@@ -283,34 +283,42 @@
                     <div class="campo"><span>Cargo</span> <input type="text" name="cargo"></div>
                     <div class="campo"><span>Telefone</span> <input type="text" name="fone"></div>
                     <div class="campo"><span>E-mail</span> <input type="text" name="email"></div>
-                    <div class="campo"><span>Propriedade</span> <input type="text" name="prop" data-zoom="P"></div>
-                    <div class="campo"><span>Lote</span> <input type="text" name="lote" data-zoom="L"></div>
+                    <div class="campo">
+                        <span>Propriedade</span> 
+                        <input type="text" name="prop" data-zoom="P" class="inputzoom">
+                        <input type="text" name="propnome" disabled>
+                    </div>
+                    <div class="campo">
+                        <span>Lote</span> 
+                        <input type="text" name="lote" data-zoom="L" class="inputzoom">
+                        <input type="text" name="lotenome" disabled>
+                    </div>
                 </div>
             </form>
             <form id="formP">
                 <div id="manP" class="manutencao">
-                    <div class="campo"><span>Código</span> <input type="text" name="codigo" disabled></div>
                     <div class="campo"><span>Nome</span> <input type="text" name="nome"></div>
                     <div class="campo"><span>Criação</span> <input type="text" name="criacao"></div>
                 </div>
             </form>
             <form id="formL">
                 <div id="manL" class="manutencao">
-                    <div class="campo"><span>Código</span> <input type="text" name="codigo" disabled></div>
                     <div class="campo"><span>Nome</span> <input type="text" name="nome"></div>
-                    <div class="campo"><span>Capacidade</span> <input type="text" name="capacidade"></div>
-                    <div class="campo"><span>Propriedade</span> <input type="text" name="prop" data-zoom="P"></div>
+                    <div class="campo"><span>Capacidade</span> <input type="number" name="capacidade"></div>
+                    <div class="campo">
+                        <span>Propriedade</span> 
+                        <input type="text" name="prop" data-zoom="P" class="inputzoom">
+                        <input type="text" name="propnome" disabled>
+                    </div>
                 </div>
             </form>
             <form id="formAn1">
                 <div id="manAn1" class="manutencao">
-                    <div class="campo"><span>Código</span> <input type="text" name="codigo" disabled></div>
                     <div class="campo"><span>Nome</span> <input type="text" name="nome"></div>
                 </div>
             </form>
             <form id="formAn2">
                 <div id="manAn2" class="manutencao">
-                    <div class="campo"><span>Código</span> <input type="text" name="codigo" disabled></div>
                     <div class="campo"><span>Nome</span> <input type="text" name="nome"></div>
                     <div class="campo"><span>Sexo</span>
                         <select name="sexo">
@@ -319,7 +327,7 @@
                         </select>
                     </div>
                     <div class="campo"><span>Status</span>
-                        <select name="vstatus">
+                        <select name="fstatus">
                             <option value="Ativo">Ativo</option>
                             <option value="Morto">Morto</option>
                             <option value="Vendido">Vendido</option>
@@ -327,14 +335,25 @@
                     </div>
                     <div class="campo"><span>Nascimento</span> <input type="date" name="nasc"></div>
                     <div class="campo"><span>Peso (kg)</span> <input type="text" name="peso"></div>
-                    <div class="campo"><span>ID animais</span> <input type="text" name="animais-id" data-zoom="An2"></div>
-                    <div class="campo"><span>Propriedade</span> <input type="text" name="prop" data-zoom="P"></div>
-                    <div class="campo"><span>Lote</span> <input type="text" name="lote" data-zoom="L"></div>
+                    <div class="campo">
+                        <span>ID animais</span> 
+                        <input type="text" name="animais-id" data-zoom="An2"class="inputzoom">
+                        <input type="text" name="animais-idnome" disabled>
+                    </div>
+                    <div class="campo">
+                        <span>Propriedade</span> 
+                        <input type="text" name="prop" data-zoom="P"class="inputzoom">
+                        <input type="text" name="propnome" disabled>
+                    </div>
+                    <div class="campo">
+                        <span>Lote</span> 
+                        <input type="text" name="lote" data-zoom="L"class="inputzoom">
+                        <input type="text" name="lotenome" disabled>
+                    </div>
                 </div>
             </form>
             <form id="formA">
                 <div id="manA" class="manutencao">
-                    <div class="campo"><span>Código</span> <input type="text" name="codigo" disabled></div>
                     <div class="campo"><span>Nome</span> <input type="text" name="nome-visitante"></div>
                     <div class="campo"><span>Tipo</span> <input type="text" name="tipo-visitante"></div>
                     <div class="campo"><span>Motivo</span> <input type="text" name="motivo"></div>
@@ -347,32 +366,43 @@
                         </select>
                     </div>
                     <div class="campo"><span>Status</span>
-                        <select name="vstatus">
+                        <select name="fstatus">
                             <option value="no">Não realizado</option>
                             <option value="yes">Realizado</option>
                         </select>
                     </div>
-                    <div class="campo"><span>Propriedade</span> <input type="text" name="prop" data-zoom="P"></div>
+                    <div class="campo">
+                        <span>Propriedade</span> 
+                        <input type="text" name="prop" data-zoom="P"class="inputzoom">
+                        <input type="text" name="propnome" disabled>
+                    </div>
                 </div>
             </form>
             <form id="formO">
                 <div id="manO" class="manutencao">
-                    <div class="campo"><span>Código</span> <input type="text" name="codigo" disabled></div>
                     <div class="campo"><span>Categoria</span> 
                         <select name="categoria">
-                            <option value="Doenca">Doença</option>
-                            <option value="Queda de producao">Queda de produção</option>
+                            <option value="Doença">Doença</option>
+                            <option value="Queda de produção">Queda de produção</option>
                             <option value="Problema alimentar">Problema alimentar</option>
                             <option value="Mortalidade">Mortalidade</option>
                             <option value="Acidente">Acidente</option>
                         </select>
                     </div>
                     <div class="campo"><span>Descrição</span> <input type="text" name="descricao"></div>
-                    <div class="campo"><span>Animal</span> <input type="text" name="animal" data-zoom="An1"></div>
-                    <div class="campo"><span>Funcionário</span> <input type="text" name="func" data-zoom="F"></div>
+                    <div class="campo">
+                        <span>Animal</span> 
+                        <input type="text" name="animal" data-zoom="An1"class="inputzoom">
+                        <input type="text" name="animalnome" disabled>
+                    </div>
+                    <div class="campo">
+                        <span>Funcionário</span> 
+                        <input type="text" name="func" data-zoom="F"class="inputzoom">
+                        <input type="text" name="funcnome" disabled>
+                    </div>
                     <div class="campo"><span>Data</span> <input type="date" name="data"></div>
                     <div class="campo"><span>Status</span>
-                        <select name="vstatus">
+                        <select name="fstatus">
                             <option value="Aberto">Aberto</option>
                             <option value="Em analise">Em análise</option>
                             <option value="Em tratamento">Em tratamento</option>
@@ -380,8 +410,16 @@
                             <option value="Cancelado">Cancelado</option>
                         </select>
                     </div>
-                    <div class="campo"><span>Propriedade</span> <input type="text" name="prop" data-zoom="P"></div>
-                    <div class="campo"><span>Lote</span> <input type="text" name="lote" data-zoom="L"></div>
+                    <div class="campo">
+                        <span>Propriedade</span> 
+                        <input type="text" name="prop" data-zoom="P"class="inputzoom">
+                        <input type="text" name="propnome" disabled>
+                    </div>
+                    <div class="campo">
+                        <span>Lote</span> 
+                        <input type="text" name="lote" data-zoom="L"class="inputzoom">
+                        <input type="text" name="lotenome" disabled>
+                    </div>
                 </div>
             </form>
         </div>
@@ -421,7 +459,7 @@
                             </thead>
                             <tbody></tbody>
                         </table>
-                </div>
+                    </div>
                 </div>
                 <div class="content" id="zoomF">
                     <div class="pesq" id="pesqZ">
