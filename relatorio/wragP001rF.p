@@ -2,18 +2,18 @@
 {wcabweb.i vurl """ """}
 
 assign vurl = "*" + furl(""" """).
-def var vprop as int.
-def var vvlote as int.
+def var vprop  as int.
+def var vtlote as int.
 
-assign vprop = batweb.batpari[1].
-assign vvlote = batweb.batpari[2].
+assign vprop  = batweb.batpari[1].
+assign vtlote = batweb.batpari[2].
 
-find prop where prop.codigo = vprop no-lock no-error.
-find vlote where vlote.codigo = vvlote no-lock no-error.
+find prop  where prop.codigo  = vprop  no-lock no-error.
+find tlote where tlote.codigo = vtlote no-lock no-error.
 
 for each func no-lock
-    where (vprop = 0 or func.prop = vprop) and
-          (vvlote = 0 or func.lote = vvlote)
+    where (vprop  = 0 or func.prop = vprop) and
+          (vtlote = 0 or func.lote = vtlote)
     break by func.prop
           by func.lote:
 
@@ -25,11 +25,11 @@ for each func no-lock
         final(yes, 100, "agrupar").
     end.
 
-    find vlote where vlote.codigo = func.lote no-lock no-error.
+    find tlote where tlote.codigo = func.lote no-lock no-error.
 
     if first-of(func.lote) then do:
         finicio(2).
-        fcaixa("E",if available vlote then vlote.nome else "Não especificado","E","<b>Lote</b>","",1,0).
+        fcaixa("E",if available tlote then tlote.nome else "Não especificado","E","<b>Lote</b>","",1,0).
         final(yes,100,"agrupar").
     end.
 
