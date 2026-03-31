@@ -3,14 +3,14 @@
 
 function fprop returns char() forwards.
 function flote returns char() forwards.
-def var vsexo as char.
-def var vstatus as char.
+def var vsexo   as char.
+def var fstatus as char.
 
 procedure p_setparams:
-    assign vpad-titulo = "Animais por propriedade"
-           vpad-numcol = 2
+    assign vpad-titulo   = "Animais por propriedade"
+           vpad-numcol   = 2
            vpad-programa = "wragP001rAn.p"
-           vpad-btdisp = true.
+           vpad-btdisp   = true.
 end procedure.
 
 procedure p_setinitial:
@@ -21,7 +21,7 @@ procedure p_setinitial:
 
 
         flabel("Lote:","right",0,yes,no,0,yes,yes)
-        fselect("vlote",flote(),get-value("vlote"),1,no,no,"left",0,no,yes,0,yes,yes,"document.forms[0].submit();")
+        fselect("tlote",flote(),get-value("tlote"),1,no,no,"left",0,no,yes,0,yes,yes,"document.forms[0].submit();")
         
 
         fbranco(1,vpad-numcol)
@@ -56,14 +56,14 @@ end procedure.
 
 procedure p_disparar: 
     create tp-batweb.
-    assign tp-batweb.batdes = vpad-titulo
-           tp-batweb.batprog = vpad-programa
+    assign tp-batweb.batdes      = vpad-titulo
+           tp-batweb.batprog     = vpad-programa
            tp-batweb.batpardc[1] = 2.2
-           tp-batweb.batparlg = yes
-           tp-batweb.batpari = int(get-value("vprop"))
-           tp-batweb.batpari[2] = int(get-value("vlote"))
-           tp-batweb.batparc[1] = vsexo
-           tp-batweb.batparc[2] = vstatus
+           tp-batweb.batparlg    = yes
+           tp-batweb.batpari     = int(get-value("vprop"))
+           tp-batweb.batpari[2]  = int(get-value("tlote"))
+           tp-batweb.batparc[1]  = vsexo
+           tp-batweb.batparc[2]  = fstatus
            tp-batweb.batpardt[1] = today
            tp-batweb.batpardt[2] = date(get-value("vdataini"))
            tp-batweb.batpardt[3] = date(get-value("vdatafim")).
@@ -87,8 +87,8 @@ function flote returns char():
     assign vselect2 = ",<-- SELECIONE -->"
            vprop = int(get-value("vprop")).
 
-    for each vlote no-lock where (vprop = 0 or vlote.prop = vprop) by vlote.nome:
-        assign vselect2 = vselect2 + "," + string(vlote.codigo) + "," + vlote.nome.
+    for each tlote no-lock where (vprop = 0 or tlote.prop = vprop) by tlote.nome:
+        assign vselect2 = vselect2 + "," + string(tlote.codigo) + "," + tlote.nome.
     end.
 
     return vselect2.
@@ -117,28 +117,14 @@ procedure p_valida:
         return.
     end.
 
-    if vM then assign vsexo = vsexo + (if vsexo = "" then "" else ",") + "M".
+    if vM then assign vsexo =         (if vsexo = "" then "" else ",") + "M".
     if vF then assign vsexo = vsexo + (if vsexo = "" then "" else ",") + "F".
 
-    if vativo   then assign vstatus = vstatus + (if vstatus = "" then "" else ",") + "Ativo".
-    if vmorto   then assign vstatus = vstatus + (if vstatus = "" then "" else ",") + "Morto".
-    if vvendido then assign vstatus = vstatus + (if vstatus = "" then "" else ",") + "Vendido".
+    if vativo   then assign fstatus =           (if fstatus = "" then "" else ",") + "Ativo".
+    if vmorto   then assign fstatus = fstatus + (if fstatus = "" then "" else ",") + "Morto".
+    if vvendido then assign fstatus = fstatus + (if fstatus = "" then "" else ",") + "Vendido".
 
     if date(get-value("vdataini")) > date(get-value("vdatafim")) and date(get-value("vdatafim")) <> ? then do:
         {wpaderro.i "erro" "'Data inicial maior que data final'"}
     end.
 end procedure.
-
-/* function fespecie returns char():
-    def var vhtml as char no-undo.
-
-    for each animais no-lock by animais.nome:
-        def var vid as char no-undo.
-        assign vid = string(animais.codigo).
-
-        assign vhtml = vhtml
-            + fpad-check(vid,"yes",yes,no,"right",0,yes,no,1,yes,yes,"","")
-            + flabel(animais.nome,"left",0,no,yes,0,yes,yes).
-    end.
-    return vhtml.
-end function. */
