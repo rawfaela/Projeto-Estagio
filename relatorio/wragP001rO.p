@@ -36,17 +36,17 @@ for each ocorrencia no-lock
         final(yes, 100, "agrupar").
     end.
 
-    find func where func.codigo = ocorrencia.func no-lock no-error.
+    find func   where func.codigo   = ocorrencia.func   no-lock no-error.
     find animal where animal.codigo = ocorrencia.animal no-lock no-error.
-    find vlote where vlote.codigo = ocorrencia.lote no-lock no-error.
+    find tlote  where tlote.codigo  = ocorrencia.lote   no-lock no-error.
 
     finicio(vcor).
     fcaixa("C", string(ocorrencia.data,"99/99/9999"),"C", "Data", "", 1, 0).
     fcaixa("E", ocorrencia.descricao,"E", "Descrição", "", 6, 0).
     fcaixa("E",string(ocorrencia.animal, "99") + " - " + animal.nome,"E","Animal","",2,0).
     fcaixa("E",string(ocorrencia.func,"99") + " - " + func.nome,"E","Funcionário","",2,0).
-    fcaixa("E",string(ocorrencia.lote, "99") + " - " + vlote.nome,"E","Lote","",2,0).
-    fcaixa("C", ocorrencia.vstatus,"C", "Status", "", 2, 0).
+    fcaixa("E",string(ocorrencia.lote, "99") + " - " + tlote.nome,"E","Lote","",2,0).
+    fcaixa("C", ocorrencia.fstatus,"C", "Status", "", 2, 0).
     if last-of(ocorrencia.prop) then
         final(yes, 100, "").
     else if last-of(ocorrencia.categoria) then
