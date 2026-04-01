@@ -21,7 +21,7 @@ procedure p_setinitial:
 
 
         flabel("Lote:","right",0,yes,no,0,yes,yes)
-        fselect("tlote",flote(),get-value("tlote"),1,no,no,"left",0,no,yes,0,yes,yes,"document.forms[0].submit();")
+        fselect("vlote",flote(),get-value("vlote"),1,no,no,"left",0,no,yes,0,yes,yes,"document.forms[0].submit();")
         
 
         fbranco(1,vpad-numcol)
@@ -61,7 +61,7 @@ procedure p_disparar:
            tp-batweb.batpardc[1] = 2.2
            tp-batweb.batparlg    = yes
            tp-batweb.batpari     = int(get-value("vprop"))
-           tp-batweb.batpari[2]  = int(get-value("tlote"))
+           tp-batweb.batpari[2]  = int(get-value("vlote"))
            tp-batweb.batparc[1]  = vsexo
            tp-batweb.batparc[2]  = fstatus
            tp-batweb.batpardt[1] = today
