@@ -320,9 +320,8 @@ $(document).on("click", ".botao", function(){
                 jqXHR.overrideMimeType('text/html;charset=iso-8859-1');
             },
             dataType: "html",
-            url: url_atual + S + "vpad_proc=p_excluir",
-            data: {vtabela: state.tab,
-                   vsubtabela: state.subTab,
+            url: url_atual + S + "vpad_proc=p_excluir" + state.tab,
+            data: {vsubtabela: state.subTab,
                    vcodigo: dados.codigo || ''},
 
             success:function(response){
@@ -375,7 +374,6 @@ $(document).on("click", ".botao", function(){
         abrirManutencao("Alterar", state.tab, state.subTab);
         $("select[name='fstatus'], select[name='aprovado']").removeClass("select-disabled");
         $("input[name='nasc']").addClass("select-disabled");
-
     }
     
     if(id == "voltar"){
