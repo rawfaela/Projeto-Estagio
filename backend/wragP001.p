@@ -55,7 +55,6 @@ function fMatch         returns log (campo as char, vpesq as char) forwards.
 function fMatchProp     returns log (pcodigo as int, vpesq as char) forwards.
 function fMatchLote     returns log (lcodigo as int, vpesq as char) forwards.
 function fMatchAnimais  returns log (acodigo as int, vpesq as char) forwards.
-function fFiltro        returns logical (vselect as char, campo as char, campo2 as char, campo3 as char, codigo as int, vpesq as char) forwards.
 function fFiltro        returns log (vselect as char, campo as char, campo2 as char, campo3 as char, codigo as int, vpesq as char) forwards.
 
 procedure output-header:
@@ -568,7 +567,7 @@ procedure p_acesso:
         tt_acesso.prop-nome = prop.nome.
 end procedure.
 
-//todo --------- FUNÇÕES -----------------------------------------
+//todo ========= FUNÇÕES ========================================
 function fput returns char (vjson as longchar):
     def var vcont as int.
     def var vnum as int init 1.
@@ -582,6 +581,27 @@ function fput returns char (vjson as longchar):
 end function.
 
 //todo --------- PESQUISA -------------------------------------------
+//? pesquisa principal (com select e input)
+function fFiltro returns logical (vselect as char, campo as char, campo2 as char, campo3 as char, codigo as int, vpesq as char):
+    if vpesq = "" then return true.
+
+    if vselect = "codigo" then do:
+        def var vnum as int no-undo.
+        assign  vnum = int(vpesq) no-error.
+        if error-status:error then
+            return false. 
+        return codigo >= vnum.
+    end.
+
+    else if vselect = "nome" or vselect = "descricao" then return fMatch(campo, vpesq).
+
+    else if vselect = "cargo" or vselect = "criacao" or vselect = "tipo" then return fMatch(campo2, vpesq).
+
+    else if vselect = "motivo" then return fMatch(campo3, vpesq).
+    
+    else return false.
+end function.
+
 //? formata textos sem acento (pra pesquisa)
 function fSemAcento returns char (pcTexto as char):
     assign pcTexto = replace(pcTexto, "á","a").
@@ -632,25 +652,4 @@ function fMatchAnimais returns log (acodigo as int, vpesq as char):
     find first animais where animais.codigo = acodigo no-lock no-error.
     if avail animais then return fMatch(animais.nome, vpesq).
     return false.
-end function.
-
-//? pesquisa principal (com select e input)
-function fFiltro returns logical (vselect as char, campo as char, campo2 as char, campo3 as char, codigo as int, vpesq as char):
-    if vpesq = "" then return true.
-
-    if vselect = "codigo" then do:
-        def var vnum as int no-undo.
-        assign  vnum = int(vpesq) no-error.
-        if error-status:error then
-            return false. 
-        return codigo >= vnum.
-    end.
-
-    else if vselect = "nome" or vselect = "descricao" then return fMatch(campo, vpesq).
-
-    else if vselect = "cargo" or vselect = "criacao" or vselect = "tipo" then return fMatch(campo2, vpesq).
-
-    else if vselect = "motivo" then return fMatch(campo3, vpesq).
-    
-    else return false.
 end function.
