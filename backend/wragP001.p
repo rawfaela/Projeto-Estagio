@@ -12,13 +12,15 @@ def var vCriou as log.
 def temp-table tt_func no-undo 
     like func
     field prop-nome as char
-    field lote-nome as char.
+    field lote-nome as char
+.
 
 def temp-table tt_prop no-undo like prop.
 
 def temp-table tt_lote no-undo 
     like tlote
-    field prop-nome as char.
+    field prop-nome as char
+.
 
 def temp-table tt_animais no-undo like animais.
 
@@ -27,7 +29,8 @@ def temp-table tt_animal no-undo
     field animais-nome  as char
     field lote-nome     as char
     field prop-nome     as char
-    field nasc-str      as char.
+    field nasc-str      as char
+.
 
 def temp-table tt_ocorrencia no-undo 
     like ocorrencia
@@ -35,12 +38,14 @@ def temp-table tt_ocorrencia no-undo
     field func-nome     as char
     field lote-nome     as char
     field prop-nome     as char
-    field data-str      as char.
+    field data-str      as char
+.
 
 def temp-table tt_acesso no-undo 
     like acesso
     field prop-nome as char
-    field data-str  as char.
+    field data-str  as char
+.
 
 def dataset ds_tudo for tt_func, tt_prop, tt_lote, tt_animais, tt_animal, tt_ocorrencia, tt_acesso.
 
@@ -110,7 +115,7 @@ procedure p_getDados:
         fstatusO    = get-value("selstatusO")
         fstatusA    = get-value("selstatusA")
         fstatusAn2  = get-value("selstatusAn2")
-        vsexo       = get-value("selsexoAn") no-error
+        vsexo       = get-value("selsexoAn2") no-error
     .
 
     empty temp-table tt_func.
@@ -215,6 +220,7 @@ procedure p_getDados:
     quit.
 end procedure.
 
+//? criar tabela
 procedure p_criareg:
     def var vcodigo as int init 1. 
     def var vtabela as char.
@@ -292,6 +298,7 @@ procedure p_criareg:
 
 end procedure.
 
+//? salvar dados na tabela
 procedure p_grava:
     def var vtabela as char.
     def var vcodigo as int.
@@ -368,67 +375,118 @@ procedure p_grava:
     delete object hBuffer.
 end procedure.
 
-procedure p_excluir:
-    def var vtabela      as char.
-    def var vsubtabela   as char.
+//? procedures de excluir tabelas
+procedure p_excluirP:
     def var vcodigo      as int.
-    def var hBuffer      as handle.
     def var vPodeExcluir as log init true.
 
-    assign vtabela    = trim(get-value("vtabela")).
-    assign vsubtabela = trim(get-value("vsubtabela")).
-
-    if trim(get-value("vcodigo")) <> "" and trim(get-value("vcodigo")) <> ?
-    then assign vcodigo = int(trim(get-value("vcodigo"))).
-    else assign vcodigo = 0.
-
-    case vtabela:
-        when "F" then do:
-            vtabela = "func".
-            if can-find(first ocorrencia where ocorrencia.func = vcodigo) then vPodeExcluir = false.
-        end.
-        when "P" then do:
-            vtabela = "prop".
-            if can-find(first tlote      where tlote.prop      = vcodigo) or
-               can-find(first func       where func.prop       = vcodigo) or
-               can-find(first animal     where animal.prop     = vcodigo) or
-               can-find(first ocorrencia where ocorrencia.prop = vcodigo) or
-               can-find(first acesso     where acesso.prop     = vcodigo) then vPodeExcluir = false.
-        end.
-        when "L" then do:
-            vtabela = "tlote".
-            if can-find(first func       where func.lote       = vcodigo) or
-               can-find(first animal     where animal.lote     = vcodigo) or
-               can-find(first ocorrencia where ocorrencia.lote = vcodigo) then vPodeExcluir = false.
-        end.
-        when "O"  then vtabela = "ocorrencia".
-        when "A"  then vtabela = "acesso".
-        when "An" then do:
-            case vsubtabela:
-                when "An1" then do:
-                    vtabela = "animais".
-                    if can-find(first animal where animal.animais = vcodigo) then vPodeExcluir = false.
-                end.
-                when "An2" then do:
-                    vtabela = "animal".
-                    if can-find(first ocorrencia where ocorrencia.animal = vcodigo) then vPodeExcluir = false.
-                end.
-            end case.
-        end.
-    end case.
-
-    create buffer hBuffer for table vtabela.
-
-    do transaction:
-        if vcodigo > 0 then hBuffer:FIND-FIRST("WHERE codigo = " + string(vcodigo), EXCLUSIVE-LOCK) no-error.
-
-        if hBuffer:avail then do:
-            if vPodeExcluir then hBuffer:BUFFER-DELETE().
+    if trim(get-value("vcodigo")) <> "" and trim(get-value("vcodigo")) <> ? then do:
+        assign vcodigo = int(trim(get-value("vcodigo"))).
+        if can-find(first tlote      where tlote.prop      = vcodigo) or
+           can-find(first func       where func.prop       = vcodigo) or
+           can-find(first animal     where animal.prop     = vcodigo) or
+           can-find(first ocorrencia where ocorrencia.prop = vcodigo) or
+           can-find(first acesso     where acesso.prop     = vcodigo) 
+        then vPodeExcluir = false.
+        
+        find first prop where prop.codigo = vcodigo exclusive-lock no-error.
+        if avail prop then do:
+            if vPodeExcluir then delete prop.
             else {&out} "msg".
         end.
     end.
+end procedure.
 
-    delete object hBuffer.
+procedure p_excluirF:
+    def var vcodigo      as int.
+    def var vPodeExcluir as log init true.
+
+    if trim(get-value("vcodigo")) <> "" and trim(get-value("vcodigo")) <> ? then do:
+        assign vcodigo = int(trim(get-value("vcodigo"))).
+        if can-find(first ocorrencia where ocorrencia.func = vcodigo) then vPodeExcluir = false.
+
+        find first func where func.codigo = vcodigo exclusive-lock no-error.
+        if avail func then do:
+            if vPodeExcluir then delete func.
+            else {&out} "msg".
+        end.
+    end.
+end procedure.
+
+procedure p_excluirL:
+    def var vcodigo      as int.
+    def var vPodeExcluir as log init true.
+
+    if trim(get-value("vcodigo")) <> "" and trim(get-value("vcodigo")) <> ? then do:
+        assign vcodigo = int(trim(get-value("vcodigo"))).
+        if can-find(first func       where func.lote       = vcodigo) or
+           can-find(first animal     where animal.lote     = vcodigo) or
+           can-find(first ocorrencia where ocorrencia.lote = vcodigo) 
+        then vPodeExcluir = false.
+
+        find first tlote where tlote.codigo = vcodigo exclusive-lock no-error.
+        if avail tlote then do:
+            if vPodeExcluir then delete tlote.
+            else {&out} "msg".
+        end.
+    end.
+end procedure.
+
+procedure p_excluirA:
+    def var vcodigo as int.
+
+    if trim(get-value("vcodigo")) <> "" and trim(get-value("vcodigo")) <> ? then do:
+        assign vcodigo = int(trim(get-value("vcodigo"))).
+        find first acesso where acesso.codigo = vcodigo exclusive-lock no-error.
+        if avail acesso then delete acesso.
+    end.
+end procedure.
+
+procedure p_excluirO:
+    def var vcodigo as int.
+
+    if trim(get-value("vcodigo")) <> "" and trim(get-value("vcodigo")) <> ? then do:
+        assign vcodigo = int(trim(get-value("vcodigo"))).
+        find first ocorrencia where ocorrencia.codigo = vcodigo exclusive-lock no-error.
+        if avail ocorrencia then delete ocorrencia.
+    end.
+end procedure.
+
+procedure p_excluirAn:
+    def var vcodigo      as int.
+    def var vPodeExcluir as log init true.
+    def var vsubtabela   as char.
+
+    assign vsubtabela = trim(get-value("vsubtabela")).
+
+    case vsubtabela:
+        when "An1" 
+        then do:
+            if trim(get-value("vcodigo")) <> "" and trim(get-value("vcodigo")) <> ? then do:
+                assign vcodigo = int(trim(get-value("vcodigo"))).
+                if can-find(first animal where animal.animais = vcodigo) then vPodeExcluir = false.
+                
+                find first animais where animais.codigo = vcodigo exclusive-lock no-error.
+                if avail animais then do:
+                    if vPodeExcluir then delete animais.
+                    else {&out} "msg".
+                end.
+            end.
+        end.
+        when "An2" 
+        then do:
+            if trim(get-value("vcodigo")) <> "" and trim(get-value("vcodigo")) <> ? then do:
+                assign vcodigo = int(trim(get-value("vcodigo"))).
+                if can-find(first ocorrencia where ocorrencia.animal = vcodigo) then vPodeExcluir = false.
+                
+                find first animal where animal.codigo = vcodigo exclusive-lock no-error.
+                if avail animal then do:
+                    if vPodeExcluir then delete animal.
+                    else {&out} "msg".
+                end.
+            end.
+        end.
+    end case.
 end procedure.
 
 //todo --------- TEMP-TABLES -----------------------------------------
