@@ -284,7 +284,7 @@ function abrirManutencao(titulo, tab, subTab){
     }
 }
 
-//? carrega nome da fkf vinculada
+//? carrega nome da fk vinculada
 function loadNameFK(formId, campo, tabela){
     let codigo = $(formId + ` [name='${campo}']`).val();
 
@@ -326,7 +326,7 @@ $(document).on("click", ".botao", function(){
 
             success:function(response){
                 if(response && response.replace(/\?/g, "").trim() !== ""){
-                    alert("Não é possível excluir, existem registros vinculados.");  
+                    alert(response.replace(/\?/g, ""));  
                 } else {
                     fpesquisar();  
                 }
@@ -518,17 +518,17 @@ const configZoom = {
     },
     An1: {
         table: () => $("#zoomAn1 tbody"),
-            render: (t,d) => renderGeneric(t, d.ds_tudo.tt_animal, [
-                { key: "codigo", class: "colunapequena" },
-                { key: "nome", class: "alignleft" }
-            ])
+        render: (t,d) => renderGeneric(t, d.ds_tudo.tt_animal, [
+            { key: "codigo", class: "colunapequena" },
+            { key: "nome", class: "alignleft" }
+        ])
     },
     An2: {
         table: () => $("#zoomAn2 tbody"),
-            render: (t,d) => renderGeneric(t, d.ds_tudo.tt_animais, [
-                { key: "codigo", class: "colunapequena" },
-                { key: "nome", class: "alignleft" }
-            ])
+        render: (t,d) => renderGeneric(t, d.ds_tudo.tt_animais, [
+            { key: "codigo", class: "colunapequena" },
+            { key: "nome", class: "alignleft" }
+        ])
     }
 }
 
@@ -618,9 +618,9 @@ function attUI(){
 function selecionarPrim(tabela){
     const first = tabela.find('input[name="nome"]').first();
     if(first.length){
-        first.prop("checked", true)
-             .closest("tr")
-             .addClass("linha-selecionada");
+       first.prop("checked", true)
+            .closest("tr")
+            .addClass("linha-selecionada");
     }
 }
 function selecaoLinha(tabela){
