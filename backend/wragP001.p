@@ -126,18 +126,16 @@ procedure p_getDados:
     empty temp-table tt_acesso.
 
     for each prop no-lock:
-        if fFiltro(vselect, prop.nome, prop.criacao, "", prop.codigo, vpesq) then
-            run p_prop.
+        if fFiltro(vselect, prop.nome, prop.criacao, "", prop.codigo, vpesq) then run p_prop.
     end.
 
     for each func no-lock,
-            first prop  where prop.codigo   = func.prop no-lock,
-            first tlote where tlote.codigo  = func.lote no-lock:
+            first prop  where prop.codigo = func.prop no-lock:
 
-        if fFiltro(vselect, func.nome, func.cargo, "", func.codigo, vpesq) then
-            run p_func.
+        find first tlote where tlote.codigo = func.lote no-lock no-error.
+        if fFiltro(vselect, func.nome, func.cargo, "", func.codigo, vpesq) then run p_func.
         else if vselect = "lote" then do:
-            if fMatchLote(func.lote, vpesq) then run p_func.
+                if fMatchLote(func.lote, vpesq) then run p_func.
         end.
         else if vselect = "prop" then do:
             if fMatchProp(func.prop, vpesq) then run p_func.
@@ -149,16 +147,14 @@ procedure p_getDados:
 
         if visLote and tlote.prop <> vprop then next.
 
-        if fFiltro(vselect, tlote.nome, "", "", tlote.codigo, vpesq) then
-            run p_lote.
+        if fFiltro(vselect, tlote.nome, "", "", tlote.codigo, vpesq) then run p_lote.
         else if vselect = "prop" then do:
             if fMatchProp(tlote.prop, vpesq) then run p_lote.
         end.
     end.
 
     for each animais no-lock:
-        if fFiltro(vselect, animais.nome, "", "", animais.codigo, vpesq) then
-            run p_animais.
+        if fFiltro(vselect, animais.nome, "", "", animais.codigo, vpesq) then run p_animais.
     end.
 
     for each animal no-lock, 
@@ -187,8 +183,7 @@ procedure p_getDados:
         if vcatA    <> "" and acesso.aprovado <> logical(vcatA)    then next.
         if fstatusA <> "" and acesso.fstatus  <> logical(fstatusA) then next.
 
-        if fFiltro(vselect, acesso.nome-visitante, acesso.tipo-visitante, acesso.motivo, acesso.codigo, vpesq) then
-            run p_acesso.
+        if fFiltro(vselect, acesso.nome-visitante, acesso.tipo-visitante, acesso.motivo, acesso.codigo, vpesq) then run p_acesso.
         else if vselect = "prop" then do:
             if fMatchProp(acesso.prop, vpesq) then run p_acesso.
         end.
@@ -203,8 +198,7 @@ procedure p_getDados:
         if vcatO    <> "" and ocorrencia.categoria <> vcatO    then next.
         if fstatusO <> "" and ocorrencia.fstatus   <> fstatusO then next.
 
-        if fFiltro(vselect, ocorrencia.descricao, "", "",ocorrencia.codigo, vpesq) then
-            run p_ocorrencia.
+        if fFiltro(vselect, ocorrencia.descricao, "", "",ocorrencia.codigo, vpesq) then run p_ocorrencia.
         else if vselect = "lote" then do:
             if fMatchLote(ocorrencia.lote, vpesq) then run p_ocorrencia.
         end.
@@ -298,6 +292,7 @@ procedure p_criareg:
 end procedure.
 
 //? salvar dados na tabela
+// * genérico (buffer), pega dados do form e salva na tabela correspondente
 procedure p_grava:
     def var vtabela as char.
     def var vcodigo as int.
@@ -305,6 +300,7 @@ procedure p_grava:
     def var hField  as handle.
     def var i       as int.
 
+    // * vcodigo-global e vtabela-global é pra quando inclui, porque a tela não manda dados
     assign vtabela = get-value("vtabela").
     if vtabela = "" or vtabela = ? then assign vtabela = vtabela-global.
     if trim(get-value("vcodigo")) <> "" then do:
@@ -343,7 +339,7 @@ procedure p_grava:
         assign hField = hBuffer:buffer-field(i).
         
         if hField:name = "codigo" or
-          (hField:name = "nasc" and not vCriou)
+          (hField:name = "nasc" and not vCriou) // * alguns campos só podem ser alterados ao criar ou alterar o registro
            then next.
         
         if trim(get-value(hField:name)) <> "" then do:
@@ -374,11 +370,12 @@ procedure p_grava:
     delete object hBuffer.
 end procedure.
 
-//? procedures de excluir tabelas
+//? procedures de excluir tabelas -- linha 323 do js
 procedure p_excluirP:
     def var vcodigo      as int.
     def var vPodeExcluir as log init true.
 
+    // * nao deixa excluir se tiver algum registro vinculado a ele
     if trim(get-value("vcodigo")) <> "" and trim(get-value("vcodigo")) <> ? then do:
         assign vcodigo = int(trim(get-value("vcodigo"))).
         if can-find(first tlote      where tlote.prop      = vcodigo) or
@@ -391,7 +388,7 @@ procedure p_excluirP:
         find first prop where prop.codigo = vcodigo exclusive-lock no-error.
         if avail prop then do:
             if vPodeExcluir then delete prop.
-            else {&out} "msg".
+            else {&out} "Não é possível excluir, existem registros vinculados.".
         end.
     end.
 end procedure.
@@ -407,7 +404,7 @@ procedure p_excluirF:
         find first func where func.codigo = vcodigo exclusive-lock no-error.
         if avail func then do:
             if vPodeExcluir then delete func.
-            else {&out} "msg".
+            else {&out} "Não é possível excluir, existem registros vinculados.".
         end.
     end.
 end procedure.
@@ -426,7 +423,7 @@ procedure p_excluirL:
         find first tlote where tlote.codigo = vcodigo exclusive-lock no-error.
         if avail tlote then do:
             if vPodeExcluir then delete tlote.
-            else {&out} "msg".
+            else {&out} "Não é possível excluir, existem registros vinculados.".
         end.
     end.
 end procedure.
@@ -468,7 +465,7 @@ procedure p_excluirAn:
                 find first animais where animais.codigo = vcodigo exclusive-lock no-error.
                 if avail animais then do:
                     if vPodeExcluir then delete animais.
-                    else {&out} "msg".
+                    else {&out} "Não é possível excluir, existem registros vinculados.".
                 end.
             end.
         end.
@@ -481,7 +478,7 @@ procedure p_excluirAn:
                 find first animal where animal.codigo = vcodigo exclusive-lock no-error.
                 if avail animal then do:
                     if vPodeExcluir then delete animal.
-                    else {&out} "msg".
+                    else {&out} "Não é possível excluir, existem registros vinculados.".
                 end.
             end.
         end.
@@ -489,6 +486,7 @@ procedure p_excluirAn:
 end procedure.
 
 //todo --------- TEMP-TABLES -----------------------------------------
+// * cria temp-tables p pesquisa/mostrar na tela (procedures p não ter q repetir em cada filtro (select) de pesquisa)
 procedure p_func:
     create tt_func.
     buffer-copy func to tt_func.
@@ -582,6 +580,7 @@ end function.
 
 //todo --------- PESQUISA -------------------------------------------
 //? pesquisa principal (com select e input)
+// * decide se o registro aparece na tela
 function fFiltro returns logical (vselect as char, campo as char, campo2 as char, campo3 as char, codigo as int, vpesq as char):
     if vpesq = "" then return true.
 
@@ -634,6 +633,7 @@ function fMatch returns log (campo as char, vpesq as char):
 end function.
 
 //? pesquisa a prop vinculada
+// * usada quando quer buscar pelo dado relacionado
 function fMatchProp returns log (pcodigo as int, vpesq as char):
     find first prop where prop.codigo = pcodigo no-lock no-error.
     if avail prop then return fMatch(prop.nome, vpesq).
